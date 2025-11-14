@@ -39,7 +39,7 @@
 
                     <div class="mb-4">
                         <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
-                        <input type="number" name="stock" id="stock" value="{{ old('stock') }}" step="0.01" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+                        <input type="number" name="stock" id="stock" value="{{ old('stock') }}" step="1" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
 
                     </div>
 

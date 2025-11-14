@@ -30,6 +30,7 @@
                 <tbody>
                     @foreach ($products as $product)
                         <tr>
+                            {{-- <td class="py-2 px-4 border-b text-center">{{ $product }}</td> --}}
                             <td class="py-2 px-4 border-b text-center">{{ $product->name }}</td>
                             <td class="py-2 px-4 border-b text-center">{{ $product->category?->name  }}</td>
                             <td class="py-2 px-4 border-b text-center">${{ number_format($product->price,2) }}</td>

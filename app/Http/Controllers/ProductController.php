@@ -46,7 +46,7 @@ class ProductController extends Controller
         }
 
         // Create a new product with the provided data
-        Product::create($data);
+        Product::create($request->all());
 
         // Redirect back to the products index with a success message
         return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
