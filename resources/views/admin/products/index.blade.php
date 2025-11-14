@@ -43,7 +43,7 @@
                                 </form>
                             </td>
                             <td class="py-2 px-4 border-b">
-                                <form  method='POST'>
+                                <form action="{{ route('admin.products.edit', $product->id) }}">
                                     
                                     <button type="submit" class="text-blue-500 hover:text-blue-700">Edit</button>                                   
                                 </form>

@@ -58,6 +58,8 @@ Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard
 Route::resource('products', ProductController::class);
 Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+Route::patch('/products/{id}/update', [ProductController::class, 'Update'])->name('products.update');
+Route::get('/products/{id}', [ProductController::class, 'edit'])->name('products.edit');
 
 //Category Management
 Route::resource('categories', CategoryController::class);

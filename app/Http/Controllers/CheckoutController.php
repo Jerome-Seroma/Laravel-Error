@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\Product;
 
 class CheckoutController extends Controller
 {
@@ -26,8 +27,20 @@ class CheckoutController extends Controller
             'shipping_address' => 'required|string|max:1000',
         ]);
 
-        DB::transaction(function () use ($request){
+        $cartItems = Cart::content();
 
+        foreach($cartItems as $orderItem)
+        {
+            $product = Product::find($orderItem -> id);
+
+            if($product->stock < $orderItem->qty) {
+                return redirect()->route('cart.index')->withErrors(['stock' => 'Not enough stock for ' . $product]);
+            }
+        }
+
+        DB::transaction(function () use ($request)
+        {
+            $cartItems = Cart::content();
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'shipping_address' => $request->shipping_address,
@@ -35,14 +48,17 @@ class CheckoutController extends Controller
                 'status' => 'pending',
             ]);
 
-            foreach (Cart::content() as $cartItem)
+            foreach($cartItems as $orderItem)
             {
+                $product = Product::find($orderItem -> id);
+                $product -> decrement('stock', $orderItem->qty);
+                
                 OrderItem::create(
                     [
                     'order_id' => $order->id,
-                    'product_id' => $cartItem->id,
-                    'quantity' => $cartItem->qty,
-                    'price' => $cartItem->price,
+                    'product_id' => $orderItem->id,
+                    'quantity' => $orderItem->qty,
+                    'price' => $orderItem->price,
                 ]);
             }
             Cart::destroy();
